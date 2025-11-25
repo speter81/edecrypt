@@ -1,5 +1,5 @@
 {
-    "name": "speter/encryption",
+    "name": "speter81/edecrypt",
     "description": "Simple helper class to encrypt / decrypt simple things",
     "type": "library",
     "require": {
