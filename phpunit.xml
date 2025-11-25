@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit bootstrap = "./tests/bootstrap.php"
+         backupGlobals               = "false"
+         colors                      = "true"
+         processIsolation            = "false"
+         stopOnFailure               = "false"
+         cacheResultFile             = "/tmp/.phpunit.result.cache"
+>
+
+    <testsuites>
+        <testsuite name="project">
+            <directory>tests</directory>
+        </testsuite>
+    </testsuites>
+
+</phpunit>
