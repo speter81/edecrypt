@@ -26,6 +26,7 @@ class EDeShortCrypt
      */
     public static function encrypt(string $plaintext, string $key): string
     {
+        self::validateKey($key);
         $compressed = gzcompress($plaintext, 9);
         $ivLength = openssl_cipher_iv_length(self::CIPHER_ALGO);
         $iv = random_bytes($ivLength);
@@ -56,6 +57,7 @@ class EDeShortCrypt
      */
     public static function decrypt(string $encryptedData, string $key): string|bool
     {
+        self::validateKey($key);
         $binary = self::Base64UrlDecode($encryptedData);
         $ivLength = openssl_cipher_iv_length(self::CIPHER_ALGO);
 
@@ -77,6 +79,15 @@ class EDeShortCrypt
         if ($decryptedCompressed === false) return false;
 
         return gzuncompress($decryptedCompressed);
+    }
+
+    private static function validateKey(string $key): void
+    {
+        if (strlen($key) < 32) {
+            throw new \InvalidArgumentException(
+                'Encryption key must be at least 32 bytes (256 bits) long for aes-256-gcm.'
+            );
+        }
     }
 
 }

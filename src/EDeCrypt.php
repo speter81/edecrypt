@@ -16,6 +16,7 @@ class EDeCrypt
      */
     public static function encrypt(string $plaintext, string $key): string
     {
+        self::validateKey($key);
         $ivLength = openssl_cipher_iv_length(self::CIPHER_ALGO);
         $iv = random_bytes($ivLength);
 
@@ -43,6 +44,7 @@ class EDeCrypt
      */
     public static function decrypt(string $encryptedData, string $key)
     {
+        self::validateKey($key);
         $binary = base64_decode($encryptedData);
         $ivLength = openssl_cipher_iv_length(self::CIPHER_ALGO);
 
@@ -60,5 +62,14 @@ class EDeCrypt
             $iv,
             $tag
         );
+    }
+
+    private static function validateKey(string $key): void
+    {
+        if (strlen($key) < 32) {
+            throw new \InvalidArgumentException(
+                'Encryption key must be at least 32 bytes (256 bits) long for aes-256-gcm.'
+            );
+        }
     }
 }
