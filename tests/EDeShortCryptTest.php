@@ -2,7 +2,7 @@
 
 use \PHPUnit\Framework\Attributes\Test;
 
-class EDeCryptTest extends \PHPUnit\Framework\TestCase
+class EDeShortCryptTest extends \PHPUnit\Framework\TestCase
 {
     const SECRET_KEY = 'really_secret_key_which_is_shared_between_sender_recipient_only';
 
@@ -17,8 +17,8 @@ class EDeCryptTest extends \PHPUnit\Framework\TestCase
     public function Invalid_CannotDecryptWithoutProperKey()
     {
         $secret = 'This is the secret we want to share. Now you know.';
-        $encrypted = \SPeter\Encryption\EDeCrypt::encrypt($secret, self::SECRET_KEY);
-        $decrypted = \SPeter\Encryption\EDeCrypt::decrypt($encrypted, "some other key");
+        $encrypted = \SPeter\Encryption\EDeShortCrypt::encrypt($secret, self::SECRET_KEY);
+        $decrypted = \SPeter\Encryption\EDeShortCrypt::decrypt($encrypted, "some other key");
         $this->assertTrue($secret !== $decrypted);
     }
 
@@ -26,17 +26,19 @@ class EDeCryptTest extends \PHPUnit\Framework\TestCase
     public function Invalid_DecryptReturnsFalseIfEncryptionIsBroken()
     {
         $secret = 'This is the secret we want to share. Now you know.';
-        $encrypted = \SPeter\Encryption\EDeCrypt::encrypt($secret, self::SECRET_KEY);
-        $decrypted = \SPeter\Encryption\EDeCrypt::decrypt($encrypted.'a', "some other key");
+        $encrypted = \SPeter\Encryption\EDeShortCrypt::encrypt($secret, self::SECRET_KEY);
+        $decrypted = \SPeter\Encryption\EDeShortCrypt::decrypt($encrypted.'a', "some other key");
         $this->assertFalse($decrypted);
     }
+
 
     #[Test]
     public function Proper_EncryptedTextCanBeDecrypted()
     {
         $secret = 'This is the secret we want to share. Now you know.';
-        $encrypted = \SPeter\Encryption\EDeCrypt::encrypt($secret, self::SECRET_KEY);
-        $decrypted = \SPeter\Encryption\EDeCrypt::decrypt($encrypted, self::SECRET_KEY);
+        $encrypted = \SPeter\Encryption\EDeShortCrypt::encrypt($secret, self::SECRET_KEY);
+        $decrypted = \SPeter\Encryption\EDeShortCrypt::decrypt($encrypted, self::SECRET_KEY);
         $this->assertTrue($secret === $decrypted);
     }
+
 }
